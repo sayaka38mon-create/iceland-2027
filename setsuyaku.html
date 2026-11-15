@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>アイスランド節約くらべ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* layout: 結論（どれだけ抑えたか）→ 地図（浮くお金×旅への影響）→ 決定ずみ → みんなに聞きたい → 上乗せするなら → 内訳 */
+:root{
+  --bg:#EEF2F6; --surface:#FFFFFF; --ink:#15233B; --muted:#5B6578; --line:#D9E0EA;
+  --accent:#2A55A8; --save:#1E7A4C; --save-soft:#DDEFE5; --ask:#B8456A; --ask-soft:#F6E1E8; --up:#8A6400; --up-soft:#F4EAD0;
+  --quad:#F5F8FB;
+  --f-disp:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1626;--surface:#172234;--ink:#E8EDF5;--muted:#A3AEC2;--line:#2A3850;--accent:#8DB2F2;--save:#6FD3A0;--save-soft:#173326;--ask:#F29BB8;--ask-soft:#3A1E2A;--up:#E9C27A;--up-soft:#352B14;--quad:#132033;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1626;--surface:#172234;--ink:#E8EDF5;--muted:#A3AEC2;--line:#2A3850;--accent:#8DB2F2;--save:#6FD3A0;--save-soft:#173326;--ask:#F29BB8;--ask-soft:#3A1E2A;--up:#E9C27A;--up-soft:#352B14;--quad:#132033;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin:0 auto;padding-block:28px 56px}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:700}
+h1{font-family:var(--f-disp);font-size:clamp(26px,6.6vw,38px);line-height:1.3;margin:6px 0 10px;text-wrap:balance}
+h2{font-family:var(--f-disp);font-size:21px;margin:42px 0 4px;text-wrap:balance;display:flex;align-items:center;gap:10px}
+h2 .dot{width:12px;height:12px;border-radius:50%;flex:none}
+.lead{color:var(--muted);margin:0 0 14px;max-width:62ch;font-size:14px}
+.num{font-variant-numeric:tabular-nums}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.hero .row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hero .big{font-family:var(--f-disp);font-size:clamp(34px,9vw,48px);font-weight:800;color:var(--save);line-height:1.1}
+.hero .unit{font-weight:700;color:var(--save)}
+.hero p{margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+.bars{margin:14px 0 0;display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:88px 1fr 64px;align-items:center;gap:10px;font-size:12.5px;font-weight:700}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums}
+.track{height:12px;border-radius:6px;background:var(--bg);overflow:hidden}
+.fill{height:100%;border-radius:6px}
+.f-k{background:var(--muted)} .f-y{background:var(--save)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px}
+.step{background:var(--quad);border-radius:12px;padding:10px 12px;font-size:12.5px;min-width:0}
+.step b{display:flex;align-items:center;gap:6px;font-size:13px}
+.step i{width:10px;height:10px;border-radius:50%;flex:none}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px}
+.map svg{display:block;width:100%;height:auto}
+.map text{font-family:var(--f-body);fill:var(--ink)}
+.map .ax{font-size:10.5px;fill:var(--muted)}
+.map .ql{font-size:11px;font-weight:700}
+.map .pl{font-size:10.5px}
+.pts{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 14px;font-size:12.5px}.pts li{display:flex;align-items:center;gap:7px;min-width:0}.pts b{flex:none;width:20px;height:20px;border-radius:50%;background:var(--save);color:var(--surface);display:grid;place-items:center;font-size:11px}.pts li.a b{background:var(--ask)}.pts span{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}@media (max-width:520px){.pts{grid-template-columns:1fr}}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:50%}
+.done{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px 16px}
+.done div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:11px 0;border-top:1px solid var(--line);align-items:baseline}
+.done div:first-child{border-top:0}
+.done b{font-size:14px}
+.done small{display:block;color:var(--muted);font-size:12.5px;line-height:1.6}
+.done .v{color:var(--save);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.done .sum{font-weight:700}
+.asks{display:grid;gap:14px}
+.ask{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ask);border-radius:16px;padding:14px 16px}
+.ask h3{margin:0;font-size:16px}
+.ask .save{display:inline-block;margin-top:4px;font-size:12.5px;font-weight:700;color:var(--ask);background:var(--ask-soft);border-radius:999px;padding:1px 10px}
+.vs2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.vs2 > div{background:var(--quad);border-radius:12px;padding:10px 12px;font-size:13px;min-width:0}
+.vs2 .h{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em}
+.vs2 .p{font-family:var(--f-disp);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.vs2 ul{margin:4px 0 0;padding-left:1.1em}
+.vs2 li{margin:1px 0}
+@media (max-width:520px){.vs2{grid-template-columns:1fr}}
+.q{font-size:13px;font-weight:700;margin-bottom:6px}
+.choice{display:flex;flex-wrap:wrap;gap:6px}
+.choice button{font:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
+.choice button[aria-pressed="true"][data-v="ok"]{background:var(--save);border-color:var(--save);color:var(--surface)}
+.choice button[aria-pressed="true"][data-v="mid"]{background:var(--muted);border-color:var(--muted);color:var(--surface)}
+.choice button[aria-pressed="true"][data-v="ng"]{background:var(--ask);border-color:var(--ask);color:var(--surface)}
+.choice button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.ups{grid-template-columns:1fr}}
+.up{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--up);border-radius:16px;padding:14px 16px;font-size:13.5px;min-width:0}
+.up h3{margin:0 0 2px;font-size:15px}
+.up .p{color:var(--up);font-weight:700}
+.up p{margin:6px 0 0}
+details{margin-top:42px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+summary{cursor:pointer;font-weight:700}
+.tblw{overflow-x:auto;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+th,td{padding:8px 10px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;font-size:12px;color:var(--muted)}
+td.r,th.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700}
+.notes{font-size:12.5px;color:var(--muted)}
+.notes li{margin:3px 0}
+a{color:var(--accent)}
+.mine{font-size:12.5px;color:var(--muted);margin-top:10px}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">ICELAND 2027 ／ みんなに聞きたい</div>
+  <h1>どこを削って、どこは削らない？</h1>
+  <p class="lead">いろいろ調べて、ツアーとタクシーにおまかせした場合より、1人 約11.7万円おさえられそうです。ただ、削り方によっては運転が増えたり、体験が変わったりします。どこなら妥協できて、どこはゆずれないか、みんなの気持ちを教えてください。</p>
+
+  <section class="hero" aria-label="工夫でおさえられた金額">
+    <div class="row"><span class="big num">11.7万円</span><span class="unit">1人あたり おさえられそう</span></div>
+    <div class="bars" aria-hidden="true">
+      <div class="bar"><span>おまかせ</span><div class="track"><div class="fill f-k" style="width:100%"></div></div><span class="v">22.0万</span></div>
+      <div class="bar"><span>今のしおり</span><div class="track"><div class="fill f-y" style="width:47%"></div></div><span class="v">10.3万</span></div>
+    </div>
+    <p>くらべたのは移動・ツアー・温泉・入場料・お酒だけ。宿（Sif）・航空券・ふだんの食事はどちらも同じなので入れていません。</p>
+    <div class="steps">
+      <div class="step"><b><i style="background:var(--save)"></i>決定でよさそう</b>ほぼ失うものがない工夫。合わせて約4.7万円</div>
+      <div class="step"><b><i style="background:var(--ask)"></i>みんなに聞きたい</b>大きく浮くけど、そのぶん何かを引き受ける。合わせて約8.8万円</div>
+      <div class="step"><b><i style="background:var(--up)"></i>上乗せするなら</b>あえてお金をかけると、ここが良くなる</div>
+    </div>
+  </section>
+
+  <h2>削れるところマップ</h2>
+  <p class="lead">右に行くほど浮くお金が大きく、上に行くほど「削ると旅が変わる」もの。右下は迷わず削ってよくて、右上が話し合いどころです。</p>
+  <div class="map">
+    <svg viewBox="0 0 360 290" role="img" aria-label="横軸は1人あたり浮くお金、縦軸は削ったときの旅への影響。右上にヴァトナヨークトルとゴールデンサークル、真ん中に温泉、下に空港の送り迎え、オーロラ、お酒、シティカード、ロッカー">
+      <rect x="40" y="10" width="155" height="120" fill="var(--quad)"/>
+      <rect x="195" y="10" width="155" height="120" fill="var(--ask-soft)"/>
+      <rect x="40" y="130" width="155" height="120" fill="var(--quad)"/>
+      <rect x="195" y="130" width="155" height="120" fill="var(--save-soft)"/>
+      <text x="200" y="26" class="ql" style="fill:var(--ask)">話し合いどころ</text>
+      <text x="200" y="146" class="ql" style="fill:var(--save)">迷わず削ってOK</text>
+      <text x="46" y="26" class="ql" style="fill:var(--muted)">こだわりしだい</text>
+      <text x="46" y="146" class="ql" style="fill:var(--muted)">小さいけど積もる</text>
+      <line x1="40" y1="250" x2="352" y2="250" stroke="var(--muted)" stroke-width="1"/>
+      <line x1="40" y1="250" x2="40" y2="8" stroke="var(--muted)" stroke-width="1"/>
+      <text x="40" y="266" class="ax">0</text><text x="117" y="266" class="ax">1万</text><text x="195" y="266" class="ax">2万</text><text x="272" y="266" class="ax">3万</text><text x="322" y="266" class="ax">4万円</text>
+      <text x="196" y="284" class="ax" text-anchor="middle">1人あたり浮くお金 →</text>
+      <text x="14" y="130" class="ax" transform="rotate(-90 14 130)" text-anchor="middle">削ると旅が変わる →</text>
+      <circle cx="335" cy="45" r="11" fill="var(--ask)"/><text x="335" y="49" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">1</text><circle cx="288" cy="88" r="11" fill="var(--ask)"/><text x="288" y="92" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">2</text><circle cx="180" cy="78" r="11" fill="var(--ask)"/><text x="180" y="82" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">3</text><circle cx="180" cy="212" r="11" fill="var(--save)"/><text x="180" y="216" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">4</text><circle cx="141" cy="170" r="11" fill="var(--save)"/><text x="141" y="174" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">5</text><circle cx="102" cy="222" r="11" fill="var(--save)"/><text x="102" y="226" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">6</text><circle cx="79" cy="206" r="11" fill="var(--save)"/><text x="79" y="210" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">7</text><circle cx="63" cy="226" r="11" fill="var(--save)"/><text x="63" y="230" text-anchor="middle" style="fill:var(--surface);font-size:11px;font-weight:700">8</text></svg>
+    <ol class="pts">
+<li class="a"><b>1</b>ヴァトナヨークトルを自分たちで<span>3.8万</span></li>
+<li class="a"><b>2</b>ゴールデンサークルを車で<span>3.2万</span></li>
+<li class="a"><b>3</b>温泉を市民プールに<span>1.8万</span></li>
+<li><b>4</b>空港の送り迎えを車で<span>1.8万</span></li>
+<li><b>5</b>オーロラを車で<span>1.3万</span></li>
+<li><b>6</b>お酒を免税店で<span>0.8万</span></li>
+<li><b>7</b>シティカード<span>0.5万</span></li>
+<li><b>8</b>荷物を宿に置く<span>0.3万</span></li>
+</ol>
+  </div>
+
+  <h2><span class="dot" style="background:var(--save)"></span>決定でよさそうな工夫</h2>
+  <p class="lead">失うものがほとんどない工夫です。反対がなければ、このまま進めます。</p>
+  <div class="done">
+    <div><span><b>空港の送り迎えを、レンタカーで</b><small>DAY1は空港で借りてそのまま宿へ、DAY6は空港で返す。タクシー2回分が浮く。</small></span><span class="v">1.8万円</span></div>
+    <div><span><b>オーロラは、車で暗い場所へ</b><small>バスツアーのかわりに、晴れた夜にグロッタ灯台や湖へ。予報を見て何度でも行ける。</small></span><span class="v">1.3万円</span></div>
+    <div><span><b>お酒は、到着した空港の免税店で</b><small>街の酒屋の6〜7割の値段。スーパーには弱いビールしかない。</small></span><span class="v">0.8万円</span></div>
+    <div><span><b>美術館とプールは、シティカードで</b><small>24時間でプール2つ・美術館・博物館・バスが全部入る（DAY4に街歩きする人）。車で出かける人はカードなしで、DAY3のプールを入口で払えばさらに約6,000円安い。</small></span><span class="v">0.5万円</span></div>
+    <div><span><b>荷物は、宿か車に置く</b><small>空港やバスターミナルのコインロッカーを使わない。</small></span><span class="v">0.3万円</span></div>
+    <div><span class="sum">合計</span><span class="v">約4.7万円</span></div>
+  </div>
+
+  <h2><span class="dot" style="background:var(--ask)"></span>みんなに聞きたいところ</h2>
+  <p class="lead">大きく浮くけれど、そのぶん何かを引き受けます。電話の前に、自分の気持ちを選んでおいてください（選んだ内容はこのスマホにだけ残ります）。</p>
+  <div class="asks">
+    <article class="ask" data-k="vatna">
+      <h3>DAY2〜3 ヴァトナヨークトルは、自分たちで行く？</h3><span class="save">1人 約3.8万円 浮く</span>
+      <div class="vs2">
+        <div><div class="h">自分たちで（今のしおり）</div><div class="p">約6.6万円</div><ul><li>げんた・よしきが2日で約11時間運転</li><li>日の出のダイアモンドビーチ、寄り道は自由</li><li>天気の判断は自分たち</li></ul></div>
+        <div><div class="h">1泊2日のバスツアー</div><div class="p">約10.4万円</div><ul><li>運転なし、全員寝られる</li><li>英語ガイドの話が聞ける</li><li>行程と休憩は決まっている</li></ul></div>
+      </div>
+      <div class="q">ここは妥協できる？</div>
+      <div class="choice" role="group" aria-label="ヴァトナヨークトル"><button type="button" data-v="ok" aria-pressed="false">自分たちで行く</button><button type="button" data-v="mid" aria-pressed="false">どちらでも</button><button type="button" data-v="ng" aria-pressed="false">ツアーがいい</button></div>
+    </article>
+    <article class="ask" data-k="gc">
+      <h3>DAY5 ゴールデンサークルは、車で回る？</h3><span class="save">1人 約3.2万円 浮く</span>
+      <div class="vs2">
+        <div><div class="h">車で（今のしおり）</div><div class="p">約0.6万円</div><ul><li>フリーズヘイマルの昼食とケリズの入場料だけ</li><li>好きな場所で好きなだけ</li><li>この日も運転がある</li></ul></div>
+        <div><div class="h">昼食付きのツアー</div><div class="p">約3.8万円</div><ul><li>フリーズヘイマルの昼食込み</li><li>運転なし、ガイド付き</li><li>7時間の決まった行程</li></ul></div>
+      </div>
+      <div class="q">ここは妥協できる？</div>
+      <div class="choice" role="group" aria-label="ゴールデンサークル"><button type="button" data-v="ok" aria-pressed="false">車で回る</button><button type="button" data-v="mid" aria-pressed="false">どちらでも</button><button type="button" data-v="ng" aria-pressed="false">ツアーがいい</button></div>
+    </article>
+    <article class="ask" data-k="spa">
+      <h3>温泉は、市民プールで満足できる？</h3><span class="save">1人 約1.8万円 浮く</span>
+      <div class="vs2">
+        <div><div class="h">市民プール（今のしおり）</div><div class="p">シティカードに込み</div><ul><li>ラウガルダルスラウグとスンドホットリン</li><li>地元の人に混ざってホットポット</li><li>景色はふつうのプール</li></ul></div>
+        <div><div class="h">スカイラグーン</div><div class="p">約1.8万円</div><ul><li>海とつながって見える露天風呂</li><li>7つのステップの温浴</li><li>日の入りの時間がいちばんきれい</li></ul></div>
+      </div>
+      <div class="q">ここは妥協できる？</div>
+      <div class="choice" role="group" aria-label="温泉"><button type="button" data-v="ok" aria-pressed="false">プールで十分</button><button type="button" data-v="mid" aria-pressed="false">どちらでも</button><button type="button" data-v="ng" aria-pressed="false">スカイラグーンに行きたい</button></div>
+    </article>
+  </div>
+  <p class="mine" id="mine" aria-live="polite"></p>
+
+  <h2><span class="dot" style="background:var(--up)"></span>あえて上乗せするなら</h2>
+  <p class="lead">浮いたお金の一部をここに回す、という考え方もあります。</p>
+  <div class="ups">
+    <div class="up"><h3>氷河の宿をグレードアップ</h3><div class="p">1人 ＋約1.0万円</div><p>Hótel Jökulsárlón（4つ星・湖にいちばん近い）。今のFosshotelにも温泉とサウナはあるので、差は「近さ」と「新しさ」。</p></div>
+    <div class="up"><h3>車を大きくする</h3><div class="p">1人 ＋約1.9万円</div><p>ランドクルーザーなら、スーツケース5個も入って座席も広い。今の予定ならSportageクラスで足りる。</p></div>
+    <div class="up"><h3>奮発ディナーをもう1回</h3><div class="p">1人 ＋約1〜1.5万円</div><p>DAY4のイワナに加えて、DAY1かDAY5の夜にも。</p></div>
+    <div class="up"><h3>スカイラグーンに行く</h3><div class="p">1人 ＋約1.8万円</div><p>DAY5のゴールデンサークルの帰り道に寄れる（17時ごろ）。</p></div>
+  </div>
+
+  <details>
+    <summary>くわしい内訳と計算の前提</summary>
+    <div class="tblw">
+      <table>
+        <thead><tr><th>場面</th><th class="r">おまかせ</th><th class="r">工夫</th><th>工夫したこと</th></tr></thead>
+        <tbody>
+          <tr><td>空港 → 市内（DAY1）</td><td class="r">9,100</td><td class="r">0</td><td>空港でレンタカー</td></tr>
+          <tr><td>荷物を預ける（DAY1）</td><td class="r">3,200</td><td class="r">0</td><td>宿に置く</td></tr>
+          <tr><td>お酒</td><td class="r">13,200</td><td class="r">5,200</td><td>到着免税店</td></tr>
+          <tr><td>ヴァトナヨークトル（DAY2–3）</td><td class="r">104,300</td><td class="r">49,400</td><td>洞窟は現地集合、宿は自分で（車代は下）</td></tr>
+          <tr><td>温泉</td><td class="r">18,200</td><td class="r">0</td><td>市民プール（シティカード）</td></tr>
+          <tr><td>美術館・プール・バス（DAY4）</td><td class="r">12,500</td><td class="r">7,900</td><td>シティカード</td></tr>
+          <tr><td>ゴールデンサークル（DAY5）</td><td class="r">37,700</td><td class="r">5,700</td><td>車で回る</td></tr>
+          <tr><td>オーロラ</td><td class="r">13,000</td><td class="r">0</td><td>車で暗い場所へ</td></tr>
+          <tr><td>市内 → 空港（DAY6）</td><td class="r">9,100</td><td class="r">0</td><td>車で空港へ行って返す</td></tr>
+          <tr><td>レンタカー5日＋ガソリン・駐車</td><td class="r">0</td><td class="r">35,200</td><td>Sportageクラス・保険込み</td></tr>
+        </tbody>
+        <tfoot><tr><td>合計（1人・円）</td><td class="r">220,300</td><td class="r">103,400</td><td>差 116,900</td></tr></tfoot>
+      </table>
+    </div>
+    <ul class="notes">
+      <li>1 ISK＝1.3円、1ドル＝155円。2026年11月時点の公開料金などからの目安。1月の実際の料金は予約画面で確認。</li>
+      <li>項目ごとの「浮く金額」は、車代を除いた差です。車代（1人約3.5万円）は、空港の送り迎え・ヴァトナ・ゴールデンサークル・オーロラの全部で共有しているので、内訳では1行にまとめています。</li>
+      <li>ツアー料金：ヴァトナヨークトル1泊2日 5人で521,344円、ゴールデンサークル＋フリーズヘイマル昼食 28,990 ISK〜、オーロラのバスツアー 9,990 ISK〜、スカイラグーン 13,990 ISK〜。</li>
+      <li>お酒は1人「缶12本＋バーで3杯」を仮に置いた額。</li>
+    </ul>
+    <p class="notes">出典：<a href="https://reykjavikattractions.is/tour/golden-circle-and-lunch-at-fridheimar-tomato-farm-with-photos/">ゴールデンサークル＋昼食ツアー</a>／<a href="https://reykjavikattractions.is/tour/northern-lights-bus-tour-from-reykjavik/">オーロラのバスツアー</a>／<a href="https://www.iceland-highlights.com/iceland-geothermal-lagoons-compared/">温泉ラグーンの料金</a>／<a href="https://troll.is/tour/blue-ice-cave-adventure/">Troll 洞窟ツアー</a>／<a href="https://www.bluecarrental.is/our-cars/kia-sportage/">Blue Car</a>／<a href="https://visitreykjavik.is/reykjavik-city-card">シティカード</a>／<a href="https://www.trvlogue.com/en/iceland-grocery-shopping-costco">免税店の値段</a></p>
+  </details>
+</div>
+
+<script>
+(function(){
+  var KEY='iceland-savings-choice',st={};
+  try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){st={}}
+  var LB={vatna:'ヴァトナ',gc:'ゴールデンサークル',spa:'温泉'};
+  function summary(){
+    var parts=[];Object.keys(LB).forEach(function(k){if(st[k]){var b=document.querySelector('.ask[data-k="'+k+'"] button[data-v="'+st[k]+'"]');if(b)parts.push(LB[k]+'：'+b.textContent)}});
+    document.getElementById('mine').textContent=parts.length?('あなたの気持ち … '+parts.join('／')):'';
+  }
+  document.querySelectorAll('.ask').forEach(function(a){
+    var k=a.dataset.k;
+    a.querySelectorAll('.choice button').forEach(function(b){
+      b.setAttribute('aria-pressed',st[k]===b.dataset.v?'true':'false');
+      b.addEventListener('click',function(){
+        st[k]=st[k]===b.dataset.v?'':b.dataset.v;
+        a.querySelectorAll('.choice button').forEach(function(x){x.setAttribute('aria-pressed',st[k]===x.dataset.v?'true':'false')});
+        try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}
+        summary();
+      });
+    });
+  });
+  summary();
+})();
+</script>
+
+</body></html>
