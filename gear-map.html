@@ -265,10 +265,22 @@ nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(-
 .split .r:first-child{border-top:0}
 .legend .sw{border-radius:50%}
 .tag{border-radius:999px}
+
+/* 下のナビ */
+.bnav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;width:min(420px,calc(100% - 24px));
+  background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:999px;padding:6px;box-shadow:0 10px 30px rgba(34,50,77,.16)}
+.bnav a{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 5px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
+.bnav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bnav a.on{background:var(--buy-soft);color:var(--buy)}
+body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+:root{padding-bottom:0}
+section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
 </style>
 </head>
 <body>
-<header class="hero">
+<header class="hero" id="top">
   <div class="wrap">
     <div class="big">gear list<span class="spark" aria-hidden="true">✦</span></div>
     <div class="is">iceland 2027 ・ sayaka &amp; asahi</div>
@@ -279,10 +291,6 @@ nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(-
     </div>
   </div>
 </header>
-<nav class="chips" aria-label="ページ内の移動"><div class="wrap">
-  <a href="#shop">買い物リスト</a><a href="#looks">コーデ</a><a href="#split">分担</a>
-</div></nav>
-
 <main class="wrap">
 
 
@@ -334,6 +342,13 @@ nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(-
 
 <footer>くわしいメモは「装備ノート」へ。</footer>
 </main>
+<nav class="bnav" aria-label="ページ内の移動">
+  <a href="#top" data-t="top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>トップ</span></a>
+  <a href="#shop" data-t="shop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>買い物</span></a>
+  <a href="#looks" data-t="looks"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6a2 2 0 1 1 2-2"/><path d="M12 6v2L3 15h18l-9-7"/><path d="M3 15v2h18v-2"/></svg><span>コーデ</span></a>
+  <a href="#split" data-t="split"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M12 15.5c1-.4 2.5-.5 4-.5 3 0 6 2 6 5"/></svg><span>分担</span></a>
+</nav>
+
 
 <script>
 (function(){
@@ -608,6 +623,17 @@ nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(-
     function fallback(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){msg.textContent='コピーできませんでした';}document.body.removeChild(ta);}
   });
   render();
+})();
+</script>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.bnav a'));
+  var ids=links.map(function(a){return a.dataset.t;});
+  function mark(id){links.forEach(function(a){a.classList.toggle('on',a.dataset.t===id);if(a.dataset.t===id)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});}
+  function onScroll(){var cur='top',y=window.innerHeight*0.35;
+    ids.forEach(function(id){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<y)cur=id;});mark(cur);}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 })();
 </script>
 </body>
