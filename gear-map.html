@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ICELAND 2027 装備マップ｜さやか・あさひ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap">
+<style>
+/* しおりと同じ骨組み：細い1列、夜空の帯、明朝の見出し */
+:root{
+  --bg:#EEF3F8;--surface:#FFFFFF;--ink:#15233B;--muted:#4B5B70;--line:#D2DCE8;
+  --accent:#2459A8;--accent-soft:#DDE8F6;--warm:#8C7CC9;--warm-soft:#EEEAF8;
+  --night:#1B2F4E;--night-ink:#F2F6FB;--night-muted:#AFC1D6;--aurora:#9ED6F0;
+  --have:#5E9C86;--have-soft:#E3EFE9;--buy:#2F6DB5;--buy-soft:#E1ECF8;
+  --l1:#C9DBEE;--l2:#8DB4DD;--l3:#4C7FBF;--l4:#1F3F73;
+  --f-head:'Shippori Mincho B1','Hiragino Mincho ProN','Yu Mincho',serif;
+  --f-body:'Zen Kaku Gothic New','Hiragino Sans','Yu Gothic',sans-serif;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0C1524;--surface:#142238;--ink:#E7EEF7;--muted:#A2B2C7;--line:#24364F;
+  --accent:#7EB0F0;--accent-soft:#1A2E4D;--warm:#B7A6EE;--warm-soft:#2A2440;
+  --night:#08111F;--have:#7FC0A8;--have-soft:#1A3029;--buy:#7EB0F0;--buy-soft:#1A2E4D;
+  --l1:#2C4263;--l2:#3D5F8C;--l3:#5B86C0;--l4:#9EC0EA;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1524;--surface:#142238;--ink:#E7EEF7;--muted:#A2B2C7;--line:#24364F;
+  --accent:#7EB0F0;--accent-soft:#1A2E4D;--warm:#B7A6EE;--warm-soft:#2A2440;
+  --night:#08111F;--have:#7FC0A8;--have-soft:#1A3029;--buy:#7EB0F0;--buy-soft:#1A2E4D;
+  --l1:#2C4263;--l2:#3D5F8C;--l3:#5B86C0;--l4:#9EC0EA;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.75;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--night)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* 夜空の帯 */
+.hero{background:var(--night);color:var(--night-ink);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:-40% -20% auto auto;width:80%;height:120%;
+  background:radial-gradient(closest-side,rgba(158,214,240,.28),transparent 70%);pointer-events:none}
+.hero .wrap{padding-block:30px 26px;position:relative;z-index:1}
+.hero .big{font-family:var(--f-head);font-weight:800;font-size:clamp(56px,17vw,112px);line-height:.95}
+.hero .is{font-size:12px;letter-spacing:.24em;font-weight:700;color:var(--aurora);margin-top:12px}
+.hero p{color:#C7D4E4;margin:14px 0 0;font-size:14.5px}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px;padding-top:16px;border-top:1px solid #34507A}
+.facts .k{font-size:11px;letter-spacing:.2em;color:var(--night-muted)}
+.facts .v{font-family:var(--f-head);font-weight:800;font-size:24px;line-height:1.3}
+.facts .v small{font-family:var(--f-body);font-size:12px;font-weight:500;color:var(--night-muted);display:block}
+
+nav.chips{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--night);border-bottom:1px solid #2A4468}
+nav.chips .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav.chips .wrap::-webkit-scrollbar{display:none}
+nav.chips a{flex:none;text-decoration:none;color:var(--night-ink);font-size:13px;font-weight:700;padding:7px 12px;border-radius:999px;border:1px solid #34507A}
+
+section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 58px)}
+.sec{padding-block:40px 8px}
+.sec-head{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:18px}
+.sec-head .lat{font-size:12px;letter-spacing:.24em;font-weight:700;color:var(--accent)}
+.sec-head h2{font-family:var(--f-head);font-weight:800;font-size:clamp(30px,9vw,40px);line-height:1.25;margin:2px 0 0}
+.sec-head p{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+/* 凡例 */
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin-bottom:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+.sw.have{background:var(--have)}.sw.buy{background:var(--buy)}.sw.decide{background:var(--warm)}
+.sw.check{border:2px dashed var(--muted)}
+
+/* 残りToDo（主役） */
+.todo{display:grid;gap:12px}
+.person{background:var(--surface);border:1px solid var(--line)}
+.person h3{margin:0;padding:12px 16px;font-family:var(--f-head);font-weight:800;font-size:22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+.person h3 small{font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--muted)}
+.task{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;padding:11px 16px;border-top:1px solid var(--line);align-items:start;cursor:pointer}
+.task:first-of-type{border-top:0}
+.task input{appearance:none;width:20px;height:20px;margin:3px 0 0;border:2px solid var(--line);border-radius:5px;display:grid;place-items:center;cursor:pointer;background:var(--surface)}
+.task input:checked{background:var(--have);border-color:var(--have)}
+.task input:checked::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.task .n{font-weight:700;line-height:1.5}
+.task .s{font-size:13px;color:var(--muted)}
+.task .p{font-weight:700;font-size:14px;white-space:nowrap;text-align:right;font-feature-settings:"tnum"}
+.task.done .n{text-decoration:line-through;color:var(--muted)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;vertical-align:2px;margin-right:4px;white-space:nowrap}
+.tag.due{background:var(--buy);color:#fff}
+.tag.buy{background:var(--buy-soft);color:var(--buy)}
+.tag.decide{background:var(--warm-soft);color:var(--warm)}
+.tag.check{border:1.5px dashed var(--muted);color:var(--muted)}
+
+/* からだマップ */
+.tabs{display:flex;border:1px solid var(--line);background:var(--surface);margin-bottom:12px}
+.tabs button{flex:1;font:inherit;font-weight:700;font-size:15px;padding:10px;border:0;background:none;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--surface)}
+.body{background:var(--surface);border:1px solid var(--line)}
+.row{display:grid;grid-template-columns:76px minmax(0,1fr);border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row .part{padding:12px 10px;font-family:var(--f-head);font-weight:800;font-size:18px;border-right:1px solid var(--line);line-height:1.3}
+.row .part small{display:block;font-family:var(--f-body);font-size:11px;font-weight:500;color:var(--muted)}
+.row .items{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.g{padding:6px 10px;border-left:4px solid;font-size:14px;line-height:1.45}
+.g small{display:block;font-size:12px;color:var(--muted)}
+.g.have{background:var(--have-soft);border-color:var(--have)}
+.g.buy{background:var(--buy-soft);border-color:var(--buy)}
+.g.decide{background:var(--warm-soft);border-color:var(--warm)}
+.g.check{background:transparent;border:2px dashed var(--line);border-left:4px dashed var(--muted)}
+[hidden]{display:none!important}
+
+/* 重ね着の断面 */
+.scenes{display:grid;gap:12px}
+.scene{background:var(--surface);border:1px solid var(--line);padding:14px 16px}
+.scene .t{font-family:var(--f-head);font-weight:800;font-size:20px;line-height:1.3}
+.scene .d{font-size:12px;color:var(--muted);margin-bottom:10px}
+.daychip{display:inline-block;font-size:11px;font-weight:700;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:0 8px;margin-right:4px}
+.cross{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;align-items:stretch}
+.cross div{padding:8px 6px;font-size:12px;line-height:1.35;min-height:62px;display:flex;align-items:flex-end}
+.c1{background:var(--l1);color:var(--ink)}.c2{background:var(--l2);color:var(--ink)}
+.c3{background:var(--l3);color:#fff}.c4{background:var(--l4);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .c4{color:#0C1524}}
+:root[data-theme="dark"] .c4{color:#0C1524}
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.feet{margin-top:8px;font-size:13px}
+.feet b{color:var(--accent)}
+
+/* お金 */
+.money{background:var(--surface);border:1px solid var(--line)}
+.money .m{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;border-top:1px solid var(--line)}
+.money .m:first-child{border-top:0}
+.money .who{font-family:var(--f-head);font-weight:800;font-size:18px}
+.money .amt{font-family:var(--f-head);font-weight:800;font-size:22px;white-space:nowrap;font-feature-settings:"tnum"}
+.money .s{font-size:12.5px;color:var(--muted);line-height:1.55}
+
+/* 分担 */
+.split{background:var(--surface);border:1px solid var(--line)}
+.split .r{display:grid;grid-template-columns:minmax(0,1fr) auto;padding:11px 16px;border-top:1px solid var(--line);font-size:14.5px}
+.split .r:first-child{border-top:0}
+.split .r b{white-space:nowrap}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+
+/* コーデのイラスト */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.seg button{font:inherit;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.looks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.look{background:var(--surface);border:1px solid var(--line);padding:12px 10px 14px}
+.look h4{margin:0;font-family:var(--f-head);font-weight:800;font-size:20px;text-align:center}
+.look .sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:4px}
+.look svg{display:block;width:100%;max-width:200px;height:auto;margin:0 auto}
+.look ul{list-style:none;margin:8px 0 0;padding:0;font-size:12.5px;line-height:1.45}
+.look li{display:flex;gap:6px;align-items:flex-start;padding:3px 0;border-top:1px dotted var(--line)}
+.look li:first-child{border-top:0}
+.look li i{flex:none;width:10px;height:10px;border-radius:50%;margin-top:5px}
+.look li i.have{background:var(--have)}.look li i.buy{background:var(--buy)}
+.look li i.decide{background:var(--warm)}.look li i.check{border:1.5px dashed var(--muted)}
+.look.ideal{border:2px solid var(--accent)}
+.gap{margin-top:10px;font-size:13.5px;background:var(--accent-soft);padding:10px 12px}
+.gap b{color:var(--accent)}
+
+.order{margin-top:12px;background:var(--surface);border:1px solid var(--line)}
+.order h4{margin:0;padding:10px 14px;font-family:var(--f-head);font-weight:800;font-size:18px;border-bottom:1px solid var(--line)}
+.order h4 small{font-family:var(--f-body);font-size:12px;font-weight:500;color:var(--muted);margin-left:6px}
+.ord{display:grid;grid-template-columns:64px minmax(0,1fr);border-top:1px solid var(--line)}
+.ord:first-of-type{border-top:0}
+.ord .k{padding:10px 0 10px 14px;font-weight:700;font-size:13px;color:var(--muted)}
+.ord ol{list-style:none;margin:0;padding:8px 14px 8px 0;display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.5}
+.ord li{display:inline-flex;align-items:center}
+.ord li span.no{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:700;margin-right:4px;flex:none}
+.ord li.out{font-weight:700}
+
+/* 買い物リスト */
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);margin-bottom:12px}
+.sum>div{padding:12px 10px;border-left:1px solid var(--line);min-width:0}
+.sum>div:first-child{border-left:0}
+.sum .k{font-size:11.5px;color:var(--muted);font-weight:700;line-height:1.4}
+.sum .v{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.25;font-feature-settings:"tnum";white-space:nowrap}
+.sum .v.main{color:var(--buy)}
+.sum small{display:block;font-size:11px;color:var(--muted)}
+.coat{background:var(--warm-soft);padding:12px 14px;margin-bottom:12px;font-size:14px}
+.coat b{display:block;margin-bottom:6px}
+.coat label{display:flex;gap:8px;align-items:center;padding:4px 0;cursor:pointer}
+.coat input{accent-color:var(--warm)}
+.csp{display:block;font-size:12px;font-weight:400;color:var(--muted)}
+.grp{margin:16px 0 6px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
+.grp small{font-weight:500;color:var(--muted)}
+.shoplist .it{background:var(--surface);border:1px solid var(--line);border-top:0;padding:11px 14px}
+.shoplist .grp+.it{border-top:1px solid var(--line)}
+.it .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.it .nm{font-weight:700;line-height:1.45}
+.it .pr{font-weight:700;white-space:nowrap;font-feature-settings:"tnum"}
+.it .why{font-size:12.5px;color:var(--muted);margin-top:2px}
+.st{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.st button{font:inherit;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.st button[aria-pressed="true"][data-v="home"]{background:var(--have);border-color:var(--have);color:#fff}
+.st button[aria-pressed="true"][data-v="buy"]{background:var(--buy);border-color:var(--buy);color:#fff}
+.st button[aria-pressed="true"][data-v="skip"]{background:var(--muted);border-color:var(--muted);color:var(--surface)}
+.st button[aria-pressed="true"][data-v="check"]{background:transparent;border:1.5px dashed var(--ink);color:var(--ink)}
+.bought{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;flex-wrap:wrap}
+.bought input[type=checkbox]{accent-color:var(--have);width:18px;height:18px}
+.bought input[type=number]{width:96px;font:inherit;font-size:14px;padding:3px 6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.it.off .nm,.it.off .pr{color:var(--muted)}
+.it.off .pr{text-decoration:line-through}
+.home{margin-top:14px;background:var(--surface);border:1px solid var(--line)}
+.home summary{padding:12px 14px;font-weight:700;cursor:pointer}
+.home .chips2{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 14px}
+.home .chips2 span{background:var(--have-soft);border-radius:999px;padding:3px 10px;font-size:13px}
+.share-box{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.share-box button{font:inherit;font-weight:700;font-size:14px;padding:10px 16px;border:0;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer}
+#copy-msg{font-size:13px;color:var(--have)}
+@media (max-width:420px){.sum .v{font-size:18px}}
+footer{padding-block:40px 32px;font-size:12px;color:var(--muted)}
+
+/* ---- かわいい版（韓国っぽい、やわらかい） ---- */
+:root{
+  --bg:#F3F6FB;--surface:#FFFFFF;--line:#E4EAF3;--muted:#6A7890;--ink:#22324D;
+  --hero:#E6EEFA;--hero-ink:#22324D;--shadow:0 6px 22px rgba(47,109,181,.08);
+  --f-head:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Hiragino Sans',sans-serif;
+  --f-body:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Hiragino Sans',sans-serif;
+  --f-en:'Gowun Batang','Times New Roman',serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1726;--surface:#17233A;--line:#26354F;--muted:#A3B1C8;--ink:#E7EEF7;--hero:#1A2A45;--hero-ink:#E7EEF7;--shadow:0 6px 22px rgba(0,0,0,.25)}}
+:root[data-theme="dark"]{--bg:#0F1726;--surface:#17233A;--line:#26354F;--muted:#A3B1C8;--ink:#E7EEF7;--hero:#1A2A45;--hero-ink:#E7EEF7;--shadow:0 6px 22px rgba(0,0,0,.25)}
+body{font-family:var(--f-body);letter-spacing:.02em}
+body::before{background:var(--hero)}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:0 0 32px 32px}
+.hero::after{background:radial-gradient(closest-side,rgba(140,124,201,.18),transparent 70%)}
+.hero .big{font-family:var(--f-en);font-weight:700;font-size:clamp(52px,15vw,96px);letter-spacing:-.01em;line-height:1}
+.hero .spark{font-size:.38em;color:var(--warm);vertical-align:super;margin-left:6px}
+.hero .is{font-family:var(--f-en);letter-spacing:.08em;font-size:14px;color:var(--buy);font-weight:400}
+.hero p{color:var(--muted)}
+.facts{border-top:1.5px dashed var(--line);gap:10px}
+.facts>div{background:var(--surface);border-radius:20px;padding:12px 14px;box-shadow:var(--shadow)}
+.facts .k{font-size:11.5px;letter-spacing:.04em;color:var(--muted);font-weight:700}
+.facts .v{font-family:var(--f-head);font-weight:900;font-size:22px;color:var(--buy)}
+.facts .v small{color:var(--muted)}
+nav.chips{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:0}
+nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(--shadow);padding:8px 16px}
+.sec-head{border-bottom:0;padding-bottom:4px}
+.sec-head .lat{font-family:var(--f-en);font-size:15px;letter-spacing:.06em;text-transform:none;color:var(--warm);font-weight:400}
+.sec-head .lat::before{content:"✦ "}
+.sec-head h2{font-family:var(--f-head);font-weight:900;font-size:clamp(28px,8vw,36px)}
+.tabs{border:0;background:var(--line);border-radius:999px;padding:4px;gap:4px}
+.tabs button{border-radius:999px}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--buy);box-shadow:var(--shadow)}
+.seg button{border:0;background:var(--surface);box-shadow:var(--shadow);padding:7px 14px}
+.seg button[aria-pressed="true"]{background:var(--buy);color:#fff}
+.sum{border:0;background:transparent;gap:8px}
+.sum>div{border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:12px}
+.sum .v{font-family:var(--f-head);font-weight:900}
+.coat{border-radius:20px}
+.grp{font-family:var(--f-head);font-size:16px}
+.shoplist .it,.shoplist .grp+.it{border:0;border-radius:20px;margin-bottom:8px;box-shadow:var(--shadow)}
+.st button{border:0;background:var(--bg)}
+.bought input[type=number]{border-radius:10px;border:1px solid var(--line)}
+.home{border:0;border-radius:20px;box-shadow:var(--shadow)}
+.home .chips2 span{background:var(--have-soft);color:var(--ink)}
+.share-box button{box-shadow:0 6px 18px rgba(47,109,181,.25)}
+.look{border:0;border-radius:24px;box-shadow:var(--shadow);background:var(--surface)}
+.look.ideal{border:0;box-shadow:0 0 0 2px var(--buy),var(--shadow)}
+.look h4{font-family:var(--f-head);font-weight:900}
+.gap{border-radius:18px;background:var(--buy-soft)}
+.order{border:0;border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.order h4{font-family:var(--f-head);font-weight:900;border-bottom:1.5px dashed var(--line)}
+.ord{border-top:1.5px dashed var(--line)}
+.ord li span.no{background:var(--buy-soft);color:var(--buy)}
+.split{border:0;border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.split .r{border-top:1.5px dashed var(--line)}
+.split .r:first-child{border-top:0}
+.legend .sw{border-radius:50%}
+.tag{border-radius:999px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="big">gear list<span class="spark" aria-hidden="true">✦</span></div>
+    <div class="is">iceland 2027 ・ sayaka &amp; asahi</div>
+    <p>持ってるもの、あと買うもの、2人で分けるもの。</p>
+    <div class="facts">
+      <div><div class="k">さやかの買い足し（必須）</div><div class="v" id="hero-s">—<small>コートの選び方で変わる</small></div></div>
+      <div><div class="k">あさひの買い足し（必須）</div><div class="v" id="hero-a">—<small>手持ちの確認しだいで変わる</small></div></div>
+    </div>
+  </div>
+</header>
+<nav class="chips" aria-label="ページ内の移動"><div class="wrap">
+  <a href="#shop">買い物リスト</a><a href="#looks">コーデ</a><a href="#split">分担</a>
+</div></nav>
+
+<main class="wrap">
+
+
+<section id="shop" class="sec">
+  <div class="sec-head"><div class="lat">Shopping</div><h2>買い物リスト</h2><p>ひとつずつ「家にある」「買う」「いらない」を選ぶと、合計が変わります。買ったら値段を入れておくと、使ったお金も分かります。</p></div>
+  <div class="tabs" role="tablist" id="shop-tabs">
+    <button role="tab" aria-selected="true" data-p="sayaka">さやか</button>
+    <button role="tab" aria-selected="false" data-p="asahi">あさひ</button>
+  </div>
+  <div class="sum" id="shop-sum"></div>
+  <div id="coat-pick" class="coat"></div>
+  <div class="shoplist" id="shop-list"></div>
+  <details class="home" id="shop-home"></details>
+  <div class="share-box">
+    <button type="button" id="copy-btn">LINEに送る用にコピー</button>
+    <span id="copy-msg" aria-live="polite"></span>
+  </div>
+  <p class="note">選んだ内容は、このスマホの中だけに保存されます。2人でそろえたいときは、上のボタンでコピーしてLINEに送ってください。値段の「目安」は、2026年11月中旬に見た時点のものです。</p>
+</section>
+<section id="looks" class="sec">
+  <div class="sec-head"><div class="lat">Looks</div><h2>コーデ</h2><p>場面を選ぶと、今の手持ちと理想の姿、着る順番が出ます。点線は、まだないもの。</p></div>
+  <div class="legend">
+    <span><i class="sw have"></i>持ってる</span><span><i class="sw buy"></i>買う</span><span><i class="sw decide"></i>決める</span><span><i class="sw check"></i>持ってるか確認</span>
+  </div>
+  <div class="seg" id="seg-who">
+    <button aria-pressed="true" data-who="sayaka">さやか</button><button aria-pressed="false" data-who="asahi">あさひ</button>
+  </div>
+  <div class="seg" id="seg-scene">
+    <button aria-pressed="true" data-scene="town">街歩き</button><button aria-pressed="false" data-scene="nature">氷河・滝・洞窟</button><button aria-pressed="false" data-scene="aurora">オーロラ待ち</button>
+  </div>
+  <div class="looks" id="looks-out"></div>
+  <div class="gap" id="looks-gap"></div>
+  <div class="order" id="looks-order"></div>
+</section>
+
+<section id="split" class="sec">
+  <div class="sec-head"><div class="lat">Share</div><h2>分担</h2><p>同じものを2つ持っていかない。</p></div>
+  <div class="split">
+    <div class="r"><span>ヘアアイロン（230V対応）・ヘアマスク・顔の保湿クリーム</span><b>さやか</b></div>
+    <div class="r"><span>シャンプー・リンス</span><b>あさひ</b></div>
+    <div class="r"><span>メイク落とし・シートマスク30枚</span><b>2人で共有</b></div>
+    <div class="r"><span>ボディクリーム・ハンドクリーム・入浴剤</span><b>どちらか（決める）</b></div>
+    <div class="r"><span>電源タップ</span><b>さやか</b></div>
+    <div class="r"><span>洗濯ネット・ピンチハンガー</span><b>宿に確認中</b></div>
+    <div class="r"><span>乳液・日焼け止め</span><b>各自</b></div>
+    <div class="r"><span>ドライヤー・洗濯の洗剤・タオル</span><b>宿にある</b></div>
+  </div>
+</section>
+
+<footer>くわしいメモは「装備ノート」へ。</footer>
+</main>
+
+<script>
+(function(){
+  var KEY='iceland-gearmap-v1',st={};
+  try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  document.querySelectorAll('.task input').forEach(function(b){
+    b.checked=!!st[b.dataset.k];
+    b.closest('.task').classList.toggle('done',b.checked);
+    b.addEventListener('change',function(){
+      st[b.dataset.k]=b.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}
+      b.closest('.task').classList.toggle('done',b.checked);
+    });
+  });
+  var tabs=document.querySelectorAll('.tabs button');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false');});
+    document.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==t.dataset.p;});
+  });});
+})();
+</script>
+
+<script>
+(function(){
+  var C={skin:'#F1D9C4',hair:'#2B2420',white:'#F4F6F8',cream:'#EFE8DA',fur:'#E9E4DE',blue:'#3F78C2',navy:'#22344F',
+    slate:'#4E6A86',char:'#3A3D42',beige:'#D8CBB4',dark:'#2A2F38',brown:'#7A5536',moz:'#F2F2EE',red:'#C9553A'};
+  var ST={have:'#5E9C86',buy:'#2F6DB5',decide:'#8C7CC9',check:'#8A97A8'};
+  function dash(st){return st&&st!=='have'?' stroke="'+ST[st]+'" stroke-width="1.3" stroke-dasharray="3 2.5"':' stroke="#00000022" stroke-width="1"';}
+  function fill(c,st){return (st&&st!=='have')?'fill="'+c+'" fill-opacity="0"':'fill="'+c+'"';}
+  function fig(o){
+    var s='<svg viewBox="0 0 160 300" role="img" aria-label="'+o.alt+'">';
+    // 地面
+    s+='<ellipse cx="80" cy="284" rx="46" ry="6" fill="#00000014"/>';
+    // フードのファー（後ろ）
+    if(o.coat&&o.coat.fur){s+='<ellipse cx="80" cy="52" rx="30" ry="30" fill="'+C.fur+'" fill-opacity="'+(o.coat.st==='have'?'1':'0')+'"/>';}
+    // 脚
+    var pc=o.pants.c;
+    s+='<path d="M60 168 L58 256 L76 256 L80 180 L84 256 L102 256 L100 168 Z" '+fill(pc,o.pants.st)+dash(o.pants.st)+'/>';
+    if(o.over){s+='<path d="M58 176 L56 252 L76 252 L80 186 L84 252 L104 252 L102 176 Z" '+fill(o.over.c,o.over.st)+dash(o.over.st)+'/>';}
+    // 靴
+    var b=o.boots;
+    if(b.type==='snow'){s+='<path d="M54 240 h24 v30 h-28 a4 4 0 0 1 -4 -4 v-6 h8 z M82 240 h24 v20 h8 v6 a4 4 0 0 1 -4 4 h-28 z" '+fill(b.c,b.st)+dash(b.st)+'/>';}
+    else{s+='<path d="M56 248 h22 v22 h-28 a4 4 0 0 1 -4 -4 v-4 h10 z M82 248 h22 v14 h10 v4 a4 4 0 0 1 -4 4 h-28 z" '+fill(b.c,b.st)+dash(b.st)+'/>';
+      if(b.st==='have'||!b.st){s+='<path d="M64 254 h10 M64 259 h10 M88 254 h10 M88 259 h10" stroke="#E8D9C4" stroke-width="1.6"/>';}}
+    if(o.spike){s+='<path d="M48 272 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 M84 272 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4" fill="none" stroke="'+(o.spike==='have'?'#555':ST[o.spike])+'" stroke-width="2"'+(o.spike!=='have'?' stroke-dasharray="3 2"':'')+'/>';}
+    // 手持ちの中に着るもの（今の姿）
+    if(o.inner){var ic=o.inner.c;
+      s+='<path d="M57 82 Q80 74 103 82 L106 166 Q80 172 54 166 Z" fill="'+ic+'" stroke="#00000022"/>';
+      s+='<path d="M57 84 L42 148 L52 151 L63 106 Z M103 84 L118 148 L108 151 L97 106 Z" fill="'+ic+'" stroke="#00000022"/>';
+      s+='<path d="M80 82 V166" stroke="#00000026"/><path d="M58 112 Q80 116 102 112 M57 136 Q80 140 103 136" stroke="#00000014" fill="none"/>';
+      if(!o.gloves||o.gloves.st!=='have'){s+='<circle cx="47" cy="156" r="5" fill="'+C.skin+'"/><circle cx="113" cy="156" r="5" fill="'+C.skin+'"/>';}}
+    // 上着
+    var c=o.coat; var hem=c.len==='long'?205:(c.len==='mid'?192:172);
+    s+='<path d="M54 80 Q80 70 106 80 L112 '+(hem-6)+' Q80 '+(hem+4)+' 48 '+(hem-6)+' Z" '+fill(c.c,c.st)+dash(c.st)+'/>';
+    // 袖
+    s+='<path d="M54 82 L38 150 L50 154 L62 104 Z M106 82 L122 150 L110 154 L98 104 Z" '+fill(c.c,c.st)+dash(c.st)+'/>';
+    if(c.puffer&&c.st==='have'){var y;for(y=100;y<hem-8;y+=16){s+='<path d="M52 '+y+' Q80 '+(y+5)+' 108 '+y+'" stroke="#00000018" fill="none"/>';}}
+    if(c.belt&&c.st==='have'){s+='<rect x="51" y="128" width="58" height="6" rx="2" fill="#00000022"/><rect x="76" y="126" width="8" height="10" rx="1" fill="#C9A44C"/>';}
+    s+='<path d="M80 80 V'+(hem-2)+'" stroke="#00000022"/>';
+    if(c.cuff&&c.st==='have'){s+='<ellipse cx="44" cy="150" rx="9" ry="6" fill="'+C.fur+'"/><ellipse cx="116" cy="150" rx="9" ry="6" fill="'+C.fur+'"/>';}
+    // 手・手袋
+    var g=o.gloves;
+    if(g&&g.st){s+='<circle cx="44" cy="160" r="8" '+fill(g.c,g.st)+dash(g.st)+'/><circle cx="116" cy="160" r="8" '+fill(g.c,g.st)+dash(g.st)+'/>';
+      if(g.st!=='have'){s+='<circle cx="44" cy="160" r="5" fill="'+C.skin+'"/><circle cx="116" cy="160" r="5" fill="'+C.skin+'"/>';}}
+    // 首
+    s+='<rect x="74" y="66" width="12" height="12" fill="'+C.skin+'"/>';
+    // 頭
+    s+='<circle cx="80" cy="50" r="18" fill="'+C.skin+'"/>';
+    s+='<path d="M62 50 Q62 30 80 30 Q98 30 98 50 Q94 40 80 40 Q66 40 62 50 Z" fill="'+C.hair+'"/>';
+    s+='<path d="M63 50 Q60 66 66 74 M97 50 Q100 66 94 74" stroke="'+C.hair+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    s+='<circle cx="74" cy="52" r="1.6" fill="#333"/><circle cx="86" cy="52" r="1.6" fill="#333"/><path d="M76 59 Q80 62 84 59" stroke="#B5655A" fill="none" stroke-width="1.4"/>';
+    // マフラー・ネックウォーマー
+    var n=o.neck;
+    if(n&&n.st){if(n.type==='fur'){s+='<path d="M60 74 Q80 88 100 74 Q104 80 98 86 Q80 96 62 86 Q56 80 60 74 Z" '+fill(C.fur,n.st)+dash(n.st)+'/>';}
+      else{s+='<rect x="64" y="68" width="32" height="14" rx="6" '+fill(n.c,n.st)+dash(n.st)+'/>';}}
+    // 帽子
+    var h=o.hat;
+    if(h&&h.st){s+='<path d="M60 48 Q60 26 80 26 Q100 26 100 48 Z" '+fill(h.c,h.st)+dash(h.st)+'/>';
+      s+='<path d="M60 46 Q58 60 62 66 L68 62 Q66 54 66 46 Z M100 46 Q102 60 98 66 L92 62 Q94 54 94 46 Z" '+fill(h.c,h.st)+dash(h.st)+'/>';
+      if(h.st==='have'||!h.st){s+='<path d="M61 44 H99" stroke="#00000022" stroke-width="3"/>';}
+      if(h.st!=='have'){s+='<text x="80" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="'+ST[h.st]+'">?</text>';}}
+    s+='</svg>';
+    return s;
+  }
+  // データ
+  var D={
+   sayaka:{
+    town:{
+     now:{alt:'さやかの街歩き、今の手持ち',inner:{c:'#D9DEE6'},hat:{c:C.white,st:'buy'},neck:{type:'fur',st:'have'},coat:{c:C.white,st:'decide',len:'mid',puffer:1,belt:1,fur:1,cuff:1},gloves:{c:C.blue,st:'buy'},pants:{c:C.dark,st:'have'},boots:{type:'snow',c:C.moz,st:'have'},
+      list:[['have','ユニクロのフリース＋インナーダウン（今はこれが一番外）'],['have','ファーのマフラー'],['decide','ダウンコート（SNIDEL か FRAY I.D）'],['buy','耳まで暖かい帽子'],['buy','ミトン'],['have','MOZ スノーブーツ']]},
+     ideal:{alt:'さやかの街歩き、理想',hat:{c:C.blue,st:'have'},neck:{type:'fur',st:'have'},coat:{c:C.white,st:'have',len:'mid',puffer:1,belt:1,fur:1,cuff:1},gloves:{c:C.blue,st:'have'},pants:{c:C.dark,st:'have'},boots:{type:'snow',c:C.moz,st:'have'},
+      list:[['buy','ブルーの帽子'],['have','ファーのマフラー'],['decide','白いダウンコート'],['buy','ブルーのミトン'],['have','暗い色のパンツ'],['buy','裏起毛タイツ'],['have','MOZ スノーブーツ']]},
+     gap:'<b>足りないのは</b> 帽子・ミトン・コートの3つ。白いコートに、帽子とミトンのブルーを足すと、雪の中の写真が映えます。'},
+    nature:{
+     now:{alt:'さやかの自然の日、今の手持ち',hat:{c:C.white,st:'buy'},neck:null,coat:{c:C.slate,st:'have',len:'short'},gloves:{c:C.blue,st:'buy'},pants:{c:C.navy,st:'have'},boots:{type:'hiking',c:C.brown,st:'have'},spike:'buy',
+      list:[['have','イナレム レインジャケット'],['have','イナレム レインパンツ'],['have','登山靴'],['buy','帽子・ミトン'],['buy','チェーンスパイク'],['buy','中のジオライン']]},
+     ideal:{alt:'さやかの自然の日、理想',hat:{c:C.blue,st:'have'},neck:{type:'gaiter',c:C.navy,st:'have'},coat:{c:C.slate,st:'have',len:'short'},gloves:{c:C.blue,st:'have'},pants:{c:C.navy,st:'have'},boots:{type:'hiking',c:C.brown,st:'have'},spike:'have',
+      list:[['buy','ブルーの帽子'],['buy','薄手ネックウォーマー（あれば）'],['have','イナレム上下'],['buy','中のジオライン'],['have','フリース＋インナーダウン'],['buy','ミトン'],['have','登山靴'],['buy','チェーンスパイク']]},
+     gap:'<b>足りないのは</b> 帽子・ミトン・チェーンスパイク・ジオライン。外側の防水はイナレムで完成しています（絵の上着の色は仮）。'},
+    aurora:{
+     now:{alt:'さやかのオーロラ待ち、今の手持ち',inner:{c:'#D9DEE6'},hat:{c:C.white,st:'buy'},neck:{type:'fur',st:'have'},coat:{c:C.white,st:'decide',len:'mid',puffer:1,belt:1,fur:1,cuff:1},gloves:{c:C.blue,st:'buy'},pants:{c:C.dark,st:'have'},boots:{type:'snow',c:C.moz,st:'have'},
+      list:[['have','ヒートテック2枚＋フリース＋インナーダウン（今はこれが一番外）'],['decide','ダウンコート'],['buy','帽子・ミトン'],['have','MOZ＋発熱ソックス'],['buy','ウール厚手靴下']]},
+     ideal:{alt:'さやかのオーロラ待ち、理想',hat:{c:C.blue,st:'have'},neck:{type:'fur',st:'have'},coat:{c:C.white,st:'have',len:'mid',puffer:1,belt:1,fur:1,cuff:1},gloves:{c:C.blue,st:'have'},pants:{c:C.dark,st:'have'},boots:{type:'snow',c:C.moz,st:'have'},
+      list:[['buy','ブルーの帽子'],['have','ファーのマフラー'],['decide','ダウンコート'],['have','中にヒートテック2枚＋フリース'],['buy','ミトン'],['have','MOZ＋発熱ソックス＋カイロ'],['buy','ウール厚手靴下']]},
+     gap:'<b>足元がいちばん冷える</b>ので、靴下の重ね方が決め手。あとは街歩きと同じく、帽子・ミトン・コート。'}
+   },
+   asahi:{
+    town:{
+     now:{alt:'あさひの街歩き、今の手持ち',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'check'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'check'},pants:{c:C.beige,st:'have'},boots:{type:'hiking',c:C.dark,st:'check'},
+      list:[['have','RACAL イヤーフラップニット'],['have','ワークマン 防水防寒ジャケット（白）'],['have','キルトウォームパンツ'],['check','手袋・ネックウォーマー'],['check','防水の靴']]},
+     ideal:{alt:'あさひの街歩き、理想',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'have'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'have'},pants:{c:C.beige,st:'have'},boots:{type:'hiking',c:C.dark,st:'have'},
+      list:[['have','ニット帽'],['check','ネックウォーマー'],['have','白いジャケット'],['check','手袋'],['have','キルトパンツ'],['check','足首まである防水の靴']]},
+     gap:'<b>上半身と頭はもう完成。</b>あとは手持ちの手袋・ネックウォーマー・靴を確認するだけ。'},
+    nature:{
+     now:{alt:'あさひの自然の日、今の手持ち',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'check'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'check'},pants:{c:C.beige,st:'have'},over:{c:C.navy,st:'buy'},boots:{type:'hiking',c:C.dark,st:'check'},spike:'check',
+      list:[['have','ジャケット・ニット帽'],['have','キルトパンツ（撥水）'],['buy','上からはく防水パンツ'],['check','足首まである防水の靴'],['check','チェーンスパイク・手袋']]},
+     ideal:{alt:'あさひの自然の日、理想',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'have'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'have'},pants:{c:C.beige,st:'have'},over:{c:C.navy,st:'have'},boots:{type:'hiking',c:C.dark,st:'have'},spike:'have',
+      list:[['have','ジャケット・ニット帽'],['check','中の肌着＋フリース'],['have','キルトパンツ'],['buy','防水パンツ'],['check','防水の靴'],['check','チェーンスパイク'],['check','手袋・ネックウォーマー']]},
+     gap:'<b>いちばん大事なのは防水パンツ。</b>滝のしぶきやみぞれで、撥水のキルトパンツだけだと濡れてきます。'},
+    aurora:{
+     now:{alt:'あさひのオーロラ待ち、今の手持ち',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'check'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'check'},pants:{c:C.beige,st:'have'},boots:{type:'hiking',c:C.dark,st:'check'},
+      list:[['have','ジャケット・ニット帽'],['have','キルトパンツ（中わた入り）'],['check','手袋・ネックウォーマー'],['check','ウール厚手靴下・暖かい靴']]},
+     ideal:{alt:'あさひのオーロラ待ち、理想',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'have'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'have'},pants:{c:C.beige,st:'have'},boots:{type:'hiking',c:C.dark,st:'have'},
+      list:[['have','ジャケット・ニット帽'],['check','中の肌着2枚＋フリース'],['have','キルトパンツ'],['check','手袋'],['check','暖かい靴＋ウール靴下']]},
+     gap:'<b>ジャケットが短めなので、腰と脚が冷えやすい。</b>キルトパンツの下にタイツをはくと安心です。'}
+   }
+  };
+
+  var L={
+   sayaka:{
+    town:{top:['ヒートテック（タートル）','白いニットかフリース','ダウンコート'],bottom:['裏起毛タイツ','パンツ'],feet:['ウール靴下','MOZ スノーブーツ'],neck:'ファーのマフラー＋帽子＋ミトン'},
+    nature:{top:['ジオライン','フリース','インナーダウン','イナレム ジャケット'],bottom:['レギンス','パンツ','イナレム レインパンツ'],feet:['ウール靴下','登山靴','チェーンスパイク'],neck:'帽子＋薄手ネックウォーマー＋ミトン'},
+    aurora:{top:['ヒートテック','ヒートテック','フリース','（寒ければ）インナーダウン','ダウンコート'],bottom:['裏起毛タイツ','パンツ'],feet:['薄いウール靴下','発熱ソックス','MOZ＋つま先カイロ'],neck:'ファーのマフラー＋帽子＋ミトン＋カイロ'}},
+   asahi:{
+    town:{top:['肌着','フリース','ワークマンのジャケット'],bottom:['タイツ','キルトパンツ'],feet:['ウール靴下','防水の靴'],neck:'ニット帽＋ネックウォーマー＋手袋'},
+    nature:{top:['肌着','フリース','ワークマンのジャケット'],bottom:['キルトパンツ','防水パンツ'],feet:['ウール靴下','防水の靴','チェーンスパイク'],neck:'ニット帽＋ネックウォーマー＋手袋'},
+    aurora:{top:['肌着','肌着','フリース','ワークマンのジャケット'],bottom:['タイツ','キルトパンツ'],feet:['ウール靴下','防水の靴＋つま先カイロ'],neck:'ニット帽＋ネックウォーマー＋手袋＋カイロ'}}
+  };
+  function ord(k,arr){return '<div class="ord"><div class="k">'+k+'</div><ol>'+arr.map(function(x,i){return '<li class="'+(i===arr.length-1?'out':'')+'"><span class="no">'+(i+1)+'</span>'+x+'</li>';}).join('')+'</ol></div>';}
+  var who='sayaka',scene='town';
+  function li(a){return '<li><i class="'+a[0]+'"></i><span>'+a[1]+'</span></li>';}
+  function render(){
+    var d=D[who][scene];
+    document.getElementById('looks-out').innerHTML=
+      '<div class="look"><h4>今</h4><div class="sub">手持ちだけ</div>'+fig(d.now)+'<ul>'+d.now.list.map(li).join('')+'</ul></div>'+
+      '<div class="look ideal"><h4>理想</h4><div class="sub">そろったとき（色は今の状態）</div>'+fig(d.ideal)+'<ul>'+d.ideal.list.map(li).join('')+'</ul></div>';
+    document.getElementById('looks-gap').innerHTML=d.gap;
+    var l=L[who][scene];
+    document.getElementById('looks-order').innerHTML='<h4>着る順番<small>①が肌側、最後がいちばん外</small></h4>'+ord('上半身',l.top)+ord('下半身',l.bottom)+ord('足',l.feet)+'<div class="ord"><div class="k">小物</div><ol><li>'+l.neck+'</li></ol></div>';
+  }
+  function seg(id,attr,set){document.querySelectorAll('#'+id+' button').forEach(function(b){b.addEventListener('click',function(){
+    document.querySelectorAll('#'+id+' button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});set(b.dataset[attr]);render();});});}
+  seg('seg-who','who',function(v){who=v;});
+  seg('seg-scene','scene',function(v){scene=v;});
+  render();
+})();
+</script>
+
+<script>
+(function(){
+  // need: 必須 / opt: あれば。def: 最初の状態 home|buy|skip|check
+  var DATA={
+   sayaka:{
+    home:['MOZ スノーブーツ（防水）','登山靴','イナレム レインスーツ上下（耐水圧2万mm）','ユニクロ インナーダウン','ユニクロ フリース','ヒートテック×2','ファーのマフラー','発熱ソックス（ネオプレン）','卑弥呼 レースアップブーツ','スープジャー・保温の水筒','ヘッドライト・モバイルバッテリー','酔い止め・サングラス・カイロ・水着'],
+    items:[
+     {id:'hat',nm:'耳当て付きの帽子（白・シャギー）',p:6000,need:1,def:'buy',why:'毎日かぶる。TRICOTÉなど。目安3千〜8千円'},
+     {id:'glove',nm:'ミトン＋スマホ対応の薄手手袋',p:4000,need:1,def:'buy',why:'ミトンは現地で羊毛のものもあり'},
+     {id:'geo',nm:'ジオライン 中厚手 上下',p:10000,need:1,def:'buy',why:'自然の日の肌着。汗をかいても冷えにくい'},
+     {id:'spike',nm:'チェーンスパイク',p:3000,need:1,def:'buy',why:'凍った遊歩道・滝の階段'},
+     {id:'wool',nm:'ウール厚手靴下 2足',p:3000,need:1,def:'buy',why:'歩く日の靴下'},
+     {id:'beanie',nm:'薄手のニット帽（サブ）',p:1500,need:0,def:'buy',why:'洞窟ツアーのヘルメットの下・フードの下'},
+     {id:'neo3',nm:'3mm ネオプレンソックス',p:2000,need:0,def:'skip',why:'オーロラ待ち・ヴィラの温泉への行き来'},
+     {id:'knit',nm:'白いニット',p:8000,need:0,def:'skip',why:'街の日の写真用'},
+     {id:'tights',nm:'裏起毛タイツ',p:2000,need:0,def:'buy',why:'街歩き・オーロラの下半身'},
+     {id:'gaiter',nm:'薄手のネックウォーマー',p:1500,need:0,def:'skip',why:'自然の日。ファーのマフラーは濡れると重い'},
+     {id:'turtle',nm:'タートルのヒートテック',p:1500,need:0,def:'skip',why:'首まで暖かい'}
+    ],
+    coat:[{id:'snidel',nm:'SNIDEL ウエストマークミドルフレンチダウン',p:39600,sp:'ダック80%・すそふんわり・サイズ1'},{id:'fray',nm:'FRAY I.D 2wayファーフードロングダウン',p:56100,sp:'ダウン90%・700FP・撥水・フードのファーが外せる・サイズ1'},{id:'none',nm:'まだ決めない（合計に入れない）',p:0}]
+   },
+   asahi:{
+    home:[],
+    items:[
+     {id:'xjacket',nm:'エックスシェルター断熱α防水防寒ジャケット（白）',p:5800,need:1,def:'buy',done:1,why:'ワークマン。防水＋中わた入りで、上の外側はこれ1枚で完成'},
+     {id:'quilt',nm:'高撥水キルトウォームストレートパンツ',p:2500,need:1,def:'buy',done:1,why:'ワークマン。暖かいけど撥水なので、濡れる日は上に防水パンツ'},
+     {id:'racal',nm:'RACAL イヤーフラップニット ワッチキャップ',p:3500,need:1,def:'buy',done:1,why:'メルカリ（中古）。耳まで覆えるウールのニット帽'},
+     {id:'rainp',nm:'上からはく防水パンツ',p:3000,need:1,def:'buy',why:'いちばん大事。滝のしぶき・みぞれの日'},
+     {id:'boots',nm:'足首まである防水の靴',p:8000,need:1,def:'check',why:'洞窟ツアーで必要なことが多い。なければ借りられるか確認'},
+     {id:'base',nm:'肌着（ヒートテックなど）2枚',p:2000,need:1,def:'check',why:'ジャケットの中'},
+     {id:'fleece',nm:'フリース',p:2000,need:1,def:'check',why:'ジャケットの中'},
+     {id:'glove',nm:'手袋',p:3000,need:1,def:'check',why:'毎日'},
+     {id:'gaiter',nm:'ネックウォーマー',p:1500,need:1,def:'check',why:'毎日'},
+     {id:'wool',nm:'ウール厚手靴下 2足',p:3000,need:0,def:'check',why:'オーロラ待ち・歩く日'},
+     {id:'spike',nm:'チェーンスパイク',p:3000,need:0,def:'check',why:'凍った遊歩道'},
+     {id:'kay',nm:'Kayiyasu トレッキングパンツ',p:4580,need:0,def:'skip',why:'防水パンツを足すなら、なくても大丈夫'}
+    ]
+   }
+  };
+  var KEY='iceland-shop-v1',S={};
+  try{S=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function g(w,id,k,d){var o=(S[w]=S[w]||{})[id]=S[w][id]||{};return (k in o)?o[k]:d;}
+  function set(w,id,k,v){((S[w]=S[w]||{})[id]=S[w][id]||{})[k]=v;save();}
+  function yen(n){return n.toLocaleString('ja-JP')+'円';}
+  var who='sayaka';
+  function calc(w){
+    var d=DATA[w],need=0,all=0,spent=0,checkN=0;
+    d.items.forEach(function(it){
+      var st=g(w,it.id,'st',it.def);
+      if(st==='check')checkN++;
+      if(st==='buy'){all+=it.p;if(it.need)need+=it.p;
+        if(g(w,it.id,'done',!!it.done)){var a=g(w,it.id,'paid','');spent+=a!==''?+a:it.p;}}
+    });
+    if(d.coat){var c=g(w,'coat','pick','none');var cp=d.coat.filter(function(x){return x.id===c;})[0];
+      need+=cp.p;all+=cp.p;
+      if(c!=='none'&&g(w,'coat','done',false)){var a=g(w,'coat','paid','');spent+=a!==''?+a:cp.p;}}
+    return {need:need,all:all,spent:spent,checkN:checkN};
+  }
+  function render(){
+    var d=DATA[who],r=calc(who);
+    document.getElementById('shop-sum').innerHTML=
+      '<div><div class="k">必須だけの合計<small>買ったもの込み</small></div><div class="v main">'+yen(r.need)+'</div></div>'+
+      '<div><div class="k">「あれば」も全部</div><div class="v">'+yen(r.all)+'</div></div>'+
+      '<div><div class="k">もう使ったお金</div><div class="v">'+yen(r.spent)+'</div>'+(r.checkN?'<small>確認中 '+r.checkN+'つ</small>':'')+'</div>';
+    var cp=document.getElementById('coat-pick');
+    if(d.coat){var c=g(who,'coat','pick','none');
+      cp.hidden=false;
+      cp.innerHTML='<b>ダウンコート（必須）を選ぶ<small class="csp">どちらも定価。次のセール（ブラックフライデーなど）を待ち中。見た目はほぼ同じで、差は暖かさと撥水</small></b>'+d.coat.map(function(x){return '<label><input type="radio" name="coat" value="'+x.id+'"'+(x.id===c?' checked':'')+'> <span>'+x.nm+(x.p?'　'+yen(x.p):'')+(x.sp?'<small class="csp">'+x.sp+'</small>':'')+'</span></label>';}).join('')+
+        (c!=='none'?'<div class="bought"><label><input type="checkbox" data-coat-done'+(g(who,'coat','done',false)?' checked':'')+'> 買った</label> 実際の値段 <input type="number" inputmode="numeric" data-coat-paid value="'+g(who,'coat','paid','')+'" placeholder="'+d.coat.filter(function(x){return x.id===c;})[0].p+'"> 円</div>':'');
+    } else {cp.hidden=true;cp.innerHTML='';}
+    var html='',groups=[[1,'必須','ないと困るもの'],[0,'あれば','なくても旅はできる']];
+    groups.forEach(function(gr){
+      html+='<div class="grp">'+gr[1]+'<small>'+gr[2]+'</small></div>';
+      d.items.filter(function(it){return it.need===gr[0];}).forEach(function(it){
+        var st=g(who,it.id,'st',it.def),off=(st==='home'||st==='skip');
+        html+='<div class="it'+(off?' off':'')+'" data-id="'+it.id+'"><div class="top"><div class="nm">'+it.nm+'</div><div class="pr">約'+yen(it.p)+'</div></div><div class="why">'+it.why+'</div>'+
+          '<div class="st">'+[['home','家にある'],['buy','買う'],['skip','いらない']].concat(who==='asahi'?[['check','確認中']]:[]).map(function(b){return '<button type="button" data-v="'+b[0]+'" aria-pressed="'+(st===b[0])+'">'+b[1]+'</button>';}).join('')+'</div>'+
+          (st==='buy'?'<div class="bought"><label><input type="checkbox" data-done'+(g(who,it.id,'done',!!it.done)?' checked':'')+'> 買った</label> 実際の値段 <input type="number" inputmode="numeric" data-paid value="'+g(who,it.id,'paid','')+'" placeholder="'+it.p+'"> 円</div>':'')+
+          '</div>';
+      });
+    });
+    document.getElementById('shop-list').innerHTML=html;
+    var sh=document.getElementById('shop-home');sh.hidden=!d.home.length;sh.innerHTML='<summary>家にあるもので足りるもの（0円）'+d.home.length+'つ</summary><div class="chips2">'+d.home.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>';
+    hero();
+  }
+  function hero(){
+    var s=calc('sayaka'),a=calc('asahi');
+    document.getElementById('hero-s').innerHTML=yen(s.need)+'<small>「あれば」も全部で'+yen(s.all)+'</small>';
+    document.getElementById('hero-a').innerHTML=yen(a.need)+'<small>'+(a.checkN?'確認中が'+a.checkN+'つ。持っていればもっと下がる':'「あれば」も全部で'+yen(a.all))+'</small>';
+  }
+  var list=document.getElementById('shop-list');
+  list.addEventListener('click',function(e){var b=e.target.closest('.st button');if(!b)return;var id=b.closest('.it').dataset.id;set(who,id,'st',b.dataset.v);render();});
+  list.addEventListener('change',function(e){var it=e.target.closest('.it');if(!it)return;var id=it.dataset.id;
+    if(e.target.hasAttribute('data-done'))set(who,id,'done',e.target.checked);
+    if(e.target.hasAttribute('data-paid'))set(who,id,'paid',e.target.value);render();});
+  var cp=document.getElementById('coat-pick');
+  cp.addEventListener('change',function(e){
+    if(e.target.name==='coat')set(who,'coat','pick',e.target.value);
+    if(e.target.hasAttribute('data-coat-done'))set(who,'coat','done',e.target.checked);
+    if(e.target.hasAttribute('data-coat-paid'))set(who,'coat','paid',e.target.value);render();});
+  var tabs=document.querySelectorAll('#shop-tabs button');
+  tabs.forEach(function(tb){tb.addEventListener('click',function(){tabs.forEach(function(x){x.setAttribute('aria-selected',x===tb?'true':'false');});who=tb.dataset.p;render();});});
+  document.getElementById('copy-btn').addEventListener('click',function(){
+    var d=DATA[who],r=calc(who),name=who==='sayaka'?'さやか':'あさひ',L=['【'+name+'の買い物リスト】'];
+    if(d.coat){var c=g(who,'coat','pick','none');var cp=d.coat.filter(function(x){return x.id===c;})[0];L.push('コート：'+(c==='none'?'未定':cp.nm+'（'+yen(cp.p)+'）'));}
+    var lab={home:'家にある',buy:'買う',skip:'いらない',check:'確認中'};
+    ['buy','check','home','skip'].forEach(function(k){var xs=d.items.filter(function(it){return g(who,it.id,'st',it.def)===k;});
+      if(xs.length)L.push('■'+lab[k]+'：'+xs.map(function(it){return it.nm+(k==='buy'?'（約'+yen(it.p)+(g(who,it.id,'done',!!it.done)?'・購入済':'')+'）':'');}).join('、'));});
+    L.push('必須だけ：'+yen(r.need)+'／全部：'+yen(r.all)+'／使った：'+yen(r.spent));
+    var txt=L.join('\n'),msg=document.getElementById('copy-msg');
+    function ok(){msg.textContent='コピーしました';setTimeout(function(){msg.textContent='';},2500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,function(){fallback();});}else fallback();
+    function fallback(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){msg.textContent='コピーできませんでした';}document.body.removeChild(ta);}
+  });
+  render();
+})();
+</script>
+</body>
+</html>
