@@ -266,7 +266,36 @@ nav.chips a{background:var(--surface);color:var(--ink);border:0;box-shadow:var(-
 .legend .sw{border-radius:50%}
 .tag{border-radius:999px}
 
+
+/* 人を先に選ぶ：上の固定バー */
+.pbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:8px max(14px,env(safe-area-inset-right,0px)) 8px max(14px,env(safe-area-inset-left,0px));
+  background:color-mix(in srgb,var(--hero) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pbar-logo{font-family:var(--f-en);font-weight:700;font-size:18px;color:var(--ink);opacity:0;transition:opacity .2s}
+.pbar.scrolled .pbar-logo{opacity:1}
+.pswitch{display:flex;background:var(--surface);border-radius:999px;padding:3px;gap:2px;box-shadow:var(--shadow)}
+.pswitch button{font:inherit;font-size:13px;font-weight:700;border:0;background:none;color:var(--muted);padding:5px 12px 5px 5px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center}
+.pswitch button[aria-selected="true"]{background:var(--buy);color:#fff}
+.pswitch button[aria-selected="true"] .av{background:#fff}
+.pswitch .av{width:22px;height:22px;margin-right:5px}
+.hero{border-radius:0 0 32px 32px}
+.toc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:20px}
+.tc{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--surface);border-radius:20px;padding:12px;box-shadow:var(--shadow);min-width:0}
+.tc .q{font-size:12px;font-weight:700;color:var(--muted)}
+.tc .a{font-family:var(--f-head);font-weight:900;font-size:20px;color:var(--buy);line-height:1.3;white-space:nowrap}
+.tc .s{font-size:11px;color:var(--muted);line-height:1.4}
+.tc .a.txt{font-size:16px;white-space:normal;line-height:1.35}
+.tc::after{content:"リストを見る →";font-size:11px;font-weight:700;color:var(--warm);margin-top:auto;padding-top:6px}
+#shop-tabs,#seg-who{display:none}
+@media (max-width:380px){.tc .a{font-size:17px}}
 /* 下のナビ */
+.si{width:18px;height:18px;margin-right:5px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.av{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin-right:6px;vertical-align:-6px}
+.av svg{width:16px;height:16px;fill:none;stroke-width:1.8;stroke-linecap:round}
+.av-s{background:var(--buy-soft)}.av-s svg{stroke:var(--buy)}
+.av-a{background:var(--warm-soft)}.av-a svg{stroke:var(--warm)}
+.seg button[aria-pressed="true"] .av{background:#fff}
+.tabs button,.seg button{display:inline-flex;align-items:center;justify-content:center}
 .bnav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;
   display:grid;grid-template-columns:repeat(4,1fr);gap:2px;width:min(420px,calc(100% - 24px));
   background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -280,14 +309,16 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
 </style>
 </head>
 <body>
+<div class="pbar" role="tablist" aria-label="誰のページを見るか"><span class="pbar-logo">gear list</span><div class="pswitch"><button role="tab" aria-selected="true" data-person="sayaka"><span class="av av-s" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>さやか</button><button role="tab" aria-selected="false" data-person="asahi"><span class="av av-a" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>あさひ</button></div></div>
 <header class="hero" id="top">
   <div class="wrap">
     <div class="big">gear list<span class="spark" aria-hidden="true">✦</span></div>
     <div class="is">iceland 2027 ・ sayaka &amp; asahi</div>
-    <p>持ってるもの、あと買うもの、2人で分けるもの。</p>
-    <div class="facts">
-      <div><div class="k">さやかの買い足し（必須）</div><div class="v" id="hero-s">—<small>コートの選び方で変わる</small></div></div>
-      <div><div class="k">あさひの買い足し（必須）</div><div class="v" id="hero-a">—<small>手持ちの確認しだいで変わる</small></div></div>
+    <p><b id="hero-name">さやか</b>のページ。持ってるもの、あと買うもの、着方。2人の分担はいちばん下。</p>
+    <div class="toc">
+      <a href="#shop" class="tc"><span class="q">あといくら？</span><span class="a" id="toc-cost">—</span><span class="s" id="toc-cost-s"></span></a>
+      <a href="#shop" class="tc"><span class="q">何が足りない？</span><span class="a" id="toc-need">—</span><span class="s" id="toc-need-s"></span></a>
+      <a href="#shop" class="tc"><span class="q">次にやること</span><span class="a txt" id="toc-next">—</span><span class="s" id="toc-next-s"></span></a>
     </div>
   </div>
 </header>
@@ -295,10 +326,10 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
 
 
 <section id="shop" class="sec">
-  <div class="sec-head"><div class="lat">Shopping</div><h2>買い物リスト</h2><p>ひとつずつ「家にある」「買う」「いらない」を選ぶと、合計が変わります。買ったら値段を入れておくと、使ったお金も分かります。</p></div>
+  <div class="sec-head"><div class="lat">Shopping</div><h2><span class="pn">さやか</span>の買い物リスト</h2><p>ひとつずつ「家にある」「買う」「いらない」を選ぶと、合計が変わります。買ったら値段を入れておくと、使ったお金も分かります。</p></div>
   <div class="tabs" role="tablist" id="shop-tabs">
-    <button role="tab" aria-selected="true" data-p="sayaka">さやか</button>
-    <button role="tab" aria-selected="false" data-p="asahi">あさひ</button>
+    <button role="tab" aria-selected="true" data-p="sayaka"><span class="av av-s" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>さやか</button>
+    <button role="tab" aria-selected="false" data-p="asahi"><span class="av av-a" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>あさひ</button>
   </div>
   <div class="sum" id="shop-sum"></div>
   <div id="coat-pick" class="coat"></div>
@@ -311,15 +342,15 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
   <p class="note">選んだ内容は、このスマホの中だけに保存されます。2人でそろえたいときは、上のボタンでコピーしてLINEに送ってください。値段の「目安」は、2026年11月中旬に見た時点のものです。</p>
 </section>
 <section id="looks" class="sec">
-  <div class="sec-head"><div class="lat">Looks</div><h2>コーデ</h2><p>場面を選ぶと、今の手持ちと理想の姿、着る順番が出ます。点線は、まだないもの。</p></div>
+  <div class="sec-head"><div class="lat">Looks</div><h2><span class="pn">さやか</span>のコーデ</h2><p>場面を選ぶと、今の手持ちと理想の姿、着る順番が出ます。点線は、まだないもの。</p></div>
   <div class="legend">
     <span><i class="sw have"></i>持ってる</span><span><i class="sw buy"></i>買う</span><span><i class="sw decide"></i>決める</span><span><i class="sw check"></i>持ってるか確認</span>
   </div>
   <div class="seg" id="seg-who">
-    <button aria-pressed="true" data-who="sayaka">さやか</button><button aria-pressed="false" data-who="asahi">あさひ</button>
+    <button aria-pressed="true" data-who="sayaka"><span class="av av-s" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>さやか</button><button aria-pressed="false" data-who="asahi"><span class="av av-a" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="4"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg></span>あさひ</button>
   </div>
   <div class="seg" id="seg-scene">
-    <button aria-pressed="true" data-scene="town">街歩き</button><button aria-pressed="false" data-scene="nature">氷河・滝・洞窟</button><button aria-pressed="false" data-scene="aurora">オーロラ待ち</button>
+    <button aria-pressed="true" data-scene="town"><svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v3M10.5 3.5h3"/><path d="M8 21V10l4-4 4 4v11"/><path d="M3 21v-6l5-3M21 21v-6l-5-3"/><path d="M11 21v-4h2v4"/><path d="M2 21h20"/></svg>街歩き</button><button aria-pressed="false" data-scene="nature"><svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20l7-12 4 6 2-3 7 9z"/><path d="M7.2 11l1.8 1.5L10.6 11"/></svg>氷河・滝・洞窟</button><button aria-pressed="false" data-scene="aurora"><svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14c3-5 6-5 9-2s6 3 9-2"/><path d="M3 19c3-4 6-4 9-1.5s6 2.5 9-1.5"/><path d="M17 3l.6 1.4L19 5l-1.4.6L17 7l-.6-1.4L15 5l1.4-.6z"/></svg>オーロラ待ち</button><button aria-pressed="false" data-scene="room"><svg class="si" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M9 20v-5h6v5"/><path d="M15.5 7.5V4.5h2.5v5"/></svg>宿の中</button>
   </div>
   <div class="looks" id="looks-out"></div>
   <div class="gap" id="looks-gap"></div>
@@ -327,7 +358,7 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
 </section>
 
 <section id="split" class="sec">
-  <div class="sec-head"><div class="lat">Share</div><h2>分担</h2><p>同じものを2つ持っていかない。</p></div>
+  <div class="sec-head"><div class="lat">Share</div><h2>2人の分担</h2><p>同じものを2つ持っていかない。</p></div>
   <div class="split">
     <div class="r"><span>ヘアアイロン（230V対応）・ヘアマスク・顔の保湿クリーム</span><b>さやか</b></div>
     <div class="r"><span>シャンプー・リンス</span><b>あさひ</b></div>
@@ -390,7 +421,8 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
     if(o.over){s+='<path d="M58 176 L56 252 L76 252 L80 186 L84 252 L104 252 L102 176 Z" '+fill(o.over.c,o.over.st)+dash(o.over.st)+'/>';}
     // 靴
     var b=o.boots;
-    if(b.type==='snow'){s+='<path d="M54 240 h24 v30 h-28 a4 4 0 0 1 -4 -4 v-6 h8 z M82 240 h24 v20 h8 v6 a4 4 0 0 1 -4 4 h-28 z" '+fill(b.c,b.st)+dash(b.st)+'/>';}
+    if(b.type==='socks'){s+='<path d="M58 250 h18 v14 a6 6 0 0 1 -6 6 h-14 a4 4 0 0 1 0 -8 h2 z M84 250 h18 v12 h4 a4 4 0 0 1 0 8 h-16 a6 6 0 0 1 -6 -6 z" '+fill(b.c,b.st)+dash(b.st)+'/>';}
+    else if(b.type==='snow'){s+='<path d="M54 240 h24 v30 h-28 a4 4 0 0 1 -4 -4 v-6 h8 z M82 240 h24 v20 h8 v6 a4 4 0 0 1 -4 4 h-28 z" '+fill(b.c,b.st)+dash(b.st)+'/>';}
     else{s+='<path d="M56 248 h22 v22 h-28 a4 4 0 0 1 -4 -4 v-4 h10 z M82 248 h22 v14 h10 v4 a4 4 0 0 1 -4 4 h-28 z" '+fill(b.c,b.st)+dash(b.st)+'/>';
       if(b.st==='have'||!b.st){s+='<path d="M64 254 h10 M64 259 h10 M88 254 h10 M88 259 h10" stroke="#E8D9C4" stroke-width="1.6"/>';}}
     if(o.spike){s+='<path d="M48 272 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 M84 272 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4 l3 4 l3 -4" fill="none" stroke="'+(o.spike==='have'?'#555':ST[o.spike])+'" stroke-width="2"'+(o.spike!=='have'?' stroke-dasharray="3 2"':'')+'/>';}
@@ -453,7 +485,13 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
       list:[['have','ヒートテック2枚＋フリース＋インナーダウン（今はこれが一番外）'],['decide','ダウンコート'],['buy','帽子・ミトン'],['have','MOZ＋発熱ソックス'],['buy','ウール厚手靴下']]},
      ideal:{alt:'さやかのオーロラ待ち、理想',hat:{c:C.blue,st:'have'},neck:{type:'fur',st:'have'},coat:{c:C.white,st:'have',len:'mid',puffer:1,belt:1,fur:1,cuff:1},gloves:{c:C.blue,st:'have'},pants:{c:C.dark,st:'have'},boots:{type:'snow',c:C.moz,st:'have'},
       list:[['buy','ブルーの帽子'],['have','ファーのマフラー'],['decide','ダウンコート'],['have','中にヒートテック2枚＋フリース'],['buy','ミトン'],['have','MOZ＋発熱ソックス＋カイロ'],['buy','ウール厚手靴下']]},
-     gap:'<b>足元がいちばん冷える</b>ので、靴下の重ね方が決め手。あとは街歩きと同じく、帽子・ミトン・コート。'}
+     gap:'<b>足元がいちばん冷える</b>ので、靴下の重ね方が決め手。あとは街歩きと同じく、帽子・ミトン・コート。'},
+    room:{
+     now:{alt:'さやかの宿の中、今の手持ち',hat:null,neck:null,coat:{c:'#EFE8DA',st:'check',len:'short'},gloves:null,pants:{c:'#DCD6CC',st:'check'},boots:{type:'socks',c:'#C9DBEE',st:'have'},
+      list:[['check','ルームウェア（上下）'],['have','ユニクロのフリース（夜の羽織り）'],['have','発熱ソックス'],['have','水着・サンダル（ヴィラの温泉）'],['buy','薄手のニット帽（温泉で髪を冷やさない）']]},
+     ideal:{alt:'さやかの宿の中、理想',hat:null,neck:null,coat:{c:'#EFE8DA',st:'have',len:'short'},gloves:null,pants:{c:'#DCD6CC',st:'have'},boots:{type:'socks',c:'#C9DBEE',st:'have'},
+      list:[['check','ゆったりしたルームウェア'],['have','フリース（寒い夜だけ）'],['have','発熱ソックス'],['have','水着・サンダル'],['buy','薄手のニット帽'],['have','保湿クリーム・シートマスク']]},
+     gap:'<b>部屋は床暖房で暖かく、むしろ乾燥がテーマ。</b>薄着で大丈夫です。ヴィラの温泉は、水着＋サンダル＋ニット帽＋大きめのタオルで。'}
    },
    asahi:{
     town:{
@@ -473,7 +511,13 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
       list:[['have','ジャケット・ニット帽'],['have','キルトパンツ（中わた入り）'],['check','手袋・ネックウォーマー'],['check','ウール厚手靴下・暖かい靴']]},
      ideal:{alt:'あさひのオーロラ待ち、理想',hat:{c:C.char,st:'have'},neck:{type:'gaiter',c:C.char,st:'have'},coat:{c:C.white,st:'have',len:'short'},gloves:{c:C.char,st:'have'},pants:{c:C.beige,st:'have'},boots:{type:'hiking',c:C.dark,st:'have'},
       list:[['have','ジャケット・ニット帽'],['check','中の肌着2枚＋フリース'],['have','キルトパンツ'],['check','手袋'],['check','暖かい靴＋ウール靴下']]},
-     gap:'<b>ジャケットが短めなので、腰と脚が冷えやすい。</b>キルトパンツの下にタイツをはくと安心です。'}
+     gap:'<b>ジャケットが短めなので、腰と脚が冷えやすい。</b>キルトパンツの下にタイツをはくと安心です。'},
+    room:{
+     now:{alt:'あさひの宿の中、今の手持ち',hat:null,neck:null,coat:{c:'#E4E9F2',st:'check',len:'short'},gloves:null,pants:{c:'#D3D9E3',st:'check'},boots:{type:'socks',c:'#C9DBEE',st:'check'},
+      list:[['check','ルームウェア（上下）'],['check','羽織るもの（フリースなど）'],['check','厚手の靴下'],['check','水着・サンダル（ヴィラの温泉）']]},
+     ideal:{alt:'あさひの宿の中、理想',hat:null,neck:null,coat:{c:'#E4E9F2',st:'have',len:'short'},gloves:null,pants:{c:'#D3D9E3',st:'have'},boots:{type:'socks',c:'#C9DBEE',st:'have'},
+      list:[['check','ゆったりしたルームウェア'],['check','羽織るもの'],['check','厚手の靴下'],['check','水着・サンダル'],['have','RACALのニット帽（温泉にも）']]},
+     gap:'<b>部屋は暖かいので薄着でOK。</b>ヴィラの温泉に入るときは、RACALのニット帽をかぶると髪が冷えません。'}
    }
   };
 
@@ -481,11 +525,13 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
    sayaka:{
     town:{top:['ヒートテック（タートル）','白いニットかフリース','ダウンコート'],bottom:['裏起毛タイツ','パンツ'],feet:['ウール靴下','MOZ スノーブーツ'],neck:'ファーのマフラー＋帽子＋ミトン'},
     nature:{top:['ジオライン','フリース','インナーダウン','イナレム ジャケット'],bottom:['レギンス','パンツ','イナレム レインパンツ'],feet:['ウール靴下','登山靴','チェーンスパイク'],neck:'帽子＋薄手ネックウォーマー＋ミトン'},
-    aurora:{top:['ヒートテック','ヒートテック','フリース','（寒ければ）インナーダウン','ダウンコート'],bottom:['裏起毛タイツ','パンツ'],feet:['薄いウール靴下','発熱ソックス','MOZ＋つま先カイロ'],neck:'ファーのマフラー＋帽子＋ミトン＋カイロ'}},
+    aurora:{top:['ヒートテック','ヒートテック','フリース','（寒ければ）インナーダウン','ダウンコート'],bottom:['裏起毛タイツ','パンツ'],feet:['薄いウール靴下','発熱ソックス','MOZ＋つま先カイロ'],neck:'ファーのマフラー＋帽子＋ミトン＋カイロ'},
+    room:{top:['ルームウェアの上','（寒い夜だけ）フリース'],bottom:['ルームウェアの下'],feet:['発熱ソックスか厚手の靴下'],neck:'ヴィラの温泉は、水着＋サンダル＋薄手のニット帽＋大きめのタオル'}},
    asahi:{
     town:{top:['肌着','フリース','ワークマンのジャケット'],bottom:['タイツ','キルトパンツ'],feet:['ウール靴下','防水の靴'],neck:'ニット帽＋ネックウォーマー＋手袋'},
     nature:{top:['肌着','フリース','ワークマンのジャケット'],bottom:['キルトパンツ','防水パンツ'],feet:['ウール靴下','防水の靴','チェーンスパイク'],neck:'ニット帽＋ネックウォーマー＋手袋'},
-    aurora:{top:['肌着','肌着','フリース','ワークマンのジャケット'],bottom:['タイツ','キルトパンツ'],feet:['ウール靴下','防水の靴＋つま先カイロ'],neck:'ニット帽＋ネックウォーマー＋手袋＋カイロ'}}
+    aurora:{top:['肌着','肌着','フリース','ワークマンのジャケット'],bottom:['タイツ','キルトパンツ'],feet:['ウール靴下','防水の靴＋つま先カイロ'],neck:'ニット帽＋ネックウォーマー＋手袋＋カイロ'},
+    room:{top:['ルームウェアの上','（寒い夜だけ）羽織るもの'],bottom:['ルームウェアの下'],feet:['厚手の靴下'],neck:'ヴィラの温泉は、水着＋サンダル＋ニット帽＋大きめのタオル'}}
   };
   function ord(k,arr){return '<div class="ord"><div class="k">'+k+'</div><ol>'+arr.map(function(x,i){return '<li class="'+(i===arr.length-1?'out':'')+'"><span class="no">'+(i+1)+'</span>'+x+'</li>';}).join('')+'</ol></div>';}
   var who='sayaka',scene='town';
@@ -594,9 +640,23 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
     hero();
   }
   function hero(){
-    var s=calc('sayaka'),a=calc('asahi');
-    document.getElementById('hero-s').innerHTML=yen(s.need)+'<small>「あれば」も全部で'+yen(s.all)+'</small>';
-    document.getElementById('hero-a').innerHTML=yen(a.need)+'<small>'+(a.checkN?'確認中が'+a.checkN+'つ。持っていればもっと下がる':'「あれば」も全部で'+yen(a.all))+'</small>';
+    var r=calc(who),d=DATA[who];
+    var SN={hat:'帽子',glove:'手袋',geo:'ジオライン',spike:'スパイク',wool:'靴下',beanie:'薄手の帽子',tights:'タイツ',neo3:'ネオプレン靴下',knit:'ニット',gaiter:'ネックウォーマー',turtle:'タートル',rainp:'防水パンツ',boots:'防水の靴',base:'肌着',fleece:'フリース',kay:'トレッキングパンツ'};
+    function sh(n,id){return SN[id]||n.split('（')[0];}
+    var noCoat=!!(d.coat&&g(who,'coat','pick','none')==='none');
+    var buys=d.items.filter(function(it){return g(who,it.id,'st',it.def)==='buy'&&!g(who,it.id,'done',!!it.done);});
+    var checks=d.items.filter(function(it){return g(who,it.id,'st',it.def)==='check';});
+    var left=r.need-r.spent;
+    document.getElementById('toc-cost').textContent=yen(left);
+    document.getElementById('toc-cost-s').textContent=noCoat?'＋コート（3.9万円か5.6万円）':(r.spent?'もう使った'+yen(r.spent)+'は別':'必須のものだけ');
+    document.getElementById('toc-need').textContent=buys.length+'つ';
+    document.getElementById('toc-need-s').textContent=buys.length?buys.slice(0,3).map(function(it){return sh(it.nm,it.id);}).join('・')+(buys.length>3?' ほか':''):'買うものはなし';
+    var nx='そろった！',nxs='';
+    if(noCoat){nx='コートを決める';nxs='SNIDEL か FRAY I.D';}
+    else if(checks.length){nx=sh(checks[0].nm,checks[0].id)+'を確認';nxs='持ってるか確認中が'+checks.length+'つ';}
+    else if(buys.length){nx=sh(buys[0].nm,buys[0].id)+'を買う';nxs='残り'+buys.length+'つ';}
+    document.getElementById('toc-next').textContent=nx;
+    document.getElementById('toc-next-s').textContent=nxs;
   }
   var list=document.getElementById('shop-list');
   list.addEventListener('click',function(e){var b=e.target.closest('.st button');if(!b)return;var id=b.closest('.it').dataset.id;set(who,id,'st',b.dataset.v);render();});
@@ -634,6 +694,27 @@ section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 16px)}
   function onScroll(){var cur='top',y=window.innerHeight*0.35;
     ids.forEach(function(id){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<y)cur=id;});mark(cur);}
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+
+<script>
+(function(){
+  var names={sayaka:'さやか',asahi:'あさひ'};
+  var bs=[].slice.call(document.querySelectorAll('.pswitch button'));
+  function pick(p){
+    bs.forEach(function(b){b.setAttribute('aria-selected',b.dataset.person===p?'true':'false');});
+    var a=document.querySelector('#shop-tabs button[data-p="'+p+'"]'); if(a)a.click();
+    var c=document.querySelector('#seg-who button[data-who="'+p+'"]'); if(c)c.click();
+    document.querySelectorAll('.pn').forEach(function(x){x.textContent=names[p];});
+    var h=document.getElementById('hero-name'); if(h)h.textContent=names[p];
+    try{localStorage.setItem('iceland-person',p);}catch(e){}
+  }
+  bs.forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.person);});});
+  var saved='sayaka'; try{saved=localStorage.getItem('iceland-person')||'sayaka';}catch(e){}
+  pick(saved);
+  var bar=document.querySelector('.pbar');
+  function sc(){bar.classList.toggle('scrolled',window.scrollY>160);}
+  window.addEventListener('scroll',sc,{passive:true});sc();
 })();
 </script>
 </body>
